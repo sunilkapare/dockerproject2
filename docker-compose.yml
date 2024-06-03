@@ -1,14 +1,16 @@
-version: '3'
+version: "3.8"
 services:
-
   vprodb:
-    image: sunildevops/vprofiledb1:V1
+    build:
+      context: ./Docker-files/db
+    image: sunildevops/vprofiledb2
+    container_name: vprodb
     ports:
       - "3306:3306"
     volumes:
-      - vrodbdata:/var/lib/mysql
+      - vprodbdata:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD="vprodbpass"
+      - MYSQL_ROOT_PASSWORD=vprodbpass
 
   vprocache01:
     image: memcached
@@ -19,19 +21,28 @@ services:
     image: rabbitmq
     ports:
       - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASSWORD=guest
 
   vproapp:
-    image: sunildevops/vprofileapp1:V1
+    build:
+      context: ./Docker-files/app
+    image: sunildevops/vprofileapp2
+    container_name: vproapp
     ports:
       - "8080:8080"
     volumes:
       - vproappdata:/usr/local/tomcat/webapps
 
   vproweb:
-    image: sunildevops/vprofileweb1:V1
+    build:
+      context: ./Docker-files/web
+    image: sunildevops/vprofileweb2
+    container_name: vproweb
     ports:
       - "80:80"
 
-  volumes:
-    vprodbdata: {}
-    vproappdata: {}
+volumes:
+  vprodbdata: {}
+  vproappdata: {}

@@ -1,11 +1,8 @@
-FROM mysql:5.7.25
-
-LABEL "Project"="Vprofile"
-
-LABEL "Auther"="Imran"
+FROM mysql:8.0.33
+LABEL "Project"="Dockerproject"
+LABEL "Author"="Imran"
 
 ENV MYSQL_ROOT_PASSWORD="vprodbpass"
-
 ENV MYSQL_DATABASE="accounts"
 
-ADD db_backup.sql  docker-entrypoint-initdb.d/db_backup.sql
+ADD db_backup.sql /docker-entrypoint-initdb.d/db_backup.sql
